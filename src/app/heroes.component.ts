@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { OnInit } from "@angular/core"; //We need this for Lifecycle hookup
+import { Router } from "@angular/router";
 
 import { Hero } from "./hero"; //Refactored Hero class code
 import { HeroService } from "./hero.service";
@@ -18,7 +19,9 @@ export class HeroesComponent implements OnInit { // OnInit must be declared here
     selectedHero: Hero;
 
     //Inject service into component constructor
-    constructor(private heroService: HeroService) {};
+    constructor(
+        private heroService: HeroService,
+        private router: Router) {};
 
     //Fetch heroes list
     getHeroes(): void {
@@ -27,6 +30,7 @@ export class HeroesComponent implements OnInit { // OnInit must be declared here
         The => (fat arrow) function correctly handles the scope of "this"*/
         this.heroService.getHeroes().then(heroes => {this.heroes = heroes});
     };
+
     ngOnInit(): void {
         /*We implement ngOnInit hookup so getHeroes() we'll be launched by the system at
         activation lyfecycle stage*/
@@ -38,4 +42,8 @@ export class HeroesComponent implements OnInit { // OnInit must be declared here
     onSelect(hero: Hero): void {
         this.selectedHero = hero;
     };
+
+    gotoDetail    (): void {
+        this.router.navigate(["/detail", this.selectedHero.id]);
+    }
 }
