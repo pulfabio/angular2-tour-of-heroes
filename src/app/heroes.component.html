@@ -1,13 +1,23 @@
 <div>
-    <h2>My Heroes</h2>
+    <h2>These are My Heroes</h2>
+    <div>
+        <label>Add a hero:
+            <input #heroName placeholder="Hero name" />
+        </label>
+        <!-- After the user clicks the add button the input field is cleared -->
+        <button (click)="add(heroName.value); heroName.value=''">Add hero</button>
+    </div>
     <ul class="heroes">
         <li *ngFor="let hero of heroes" (click)="onSelect(hero)" [class.selected]="hero === selectedHero">
             <span class="badge">{{ hero.id }}</span><span> {{ hero.name }}</span>
+            <!-- Adds a delete button next to each hero. After the button is clicked event propagation is stopped so the the click handler inside the <li> tag is not called! -->
+            <button class="delete"
+            (click)="delete(hero); $event.stopPropagation()" >Delete hero</button>
         </li>
     </ul>
 </div>
 <div *ngIf="selectedHero">
     <h2>{{ selectedHero.name | uppercase }} is my Hero!</h2>
-    <button (click)="gotoDetail()">View details</button>
+    <button (click)="gotoDetail()">View {{ selectedHero.name }}'s details</button>
 </div>
 

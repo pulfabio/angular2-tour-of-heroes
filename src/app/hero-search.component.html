@@ -1,0 +1,8 @@
+<div id="search-component">
+    <h4>Hero Search</h4>
+    <!-- the "search" method is launched at every keyup event -->
+    <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
+    <!-- "heroes" is an Observable of an array. It must first be flowed through the "async" pipe, which subscribes to the Observable and produces an actual array -->
+    <div *ngFor="let hero of heroes | async" (click)="gotoDetail(hero)" class="search-result">{{ hero.name }}
+    </div>
+</div>

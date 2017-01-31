@@ -43,7 +43,28 @@ export class HeroesComponent implements OnInit { // OnInit must be declared here
         this.selectedHero = hero;
     };
 
-    gotoDetail    (): void {
+    gotoDetail(): void {
         this.router.navigate(["/detail", this.selectedHero.id]);
     }
+
+    add(name: string): void {
+        name = name.trim(); //Removes spaces right and left
+        if(!name) { return; }
+        this.heroService.create(name)
+        .then(hero => {
+            this.heroes.push(hero); //Adds new hero to heroes list
+            this.selectedHero = null;
+        })
+    }
+
+    delete(hero: Hero): void {
+        this.heroService.delete(hero.id)
+        .then(() => {
+            //Update the list display
+            this.heroes = this.heroes.filter(h => h !== hero);
+            //Remove selectedHero assignment, if any
+            if (this.selectedHero === hero) { this.selectedHero = null; }
+        });
+    }
+
 }
